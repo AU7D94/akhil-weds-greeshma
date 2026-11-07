@@ -33,6 +33,8 @@
   --band: #111111;        /* inverted ribbons */
   --band-ink: #F4F3EF;
   --field: #FFFFFF;
+  --wed: #7A1426;        /* dark red: wedding heart */
+  --rec: #0E7C7B;        /* teal: reception ring */
   --display: 'Jost', 'Futura', 'Century Gothic', 'Helvetica Neue', Arial, sans-serif;
   --serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', 'Times New Roman', serif;
   --script: 'Pinyon Script', 'Snell Roundhand', cursive;
@@ -41,12 +43,12 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0F0F0E; --ink: #EEECE6; --muted: #A4A29B; --rule: rgba(238, 236, 230, 0.22);
-    --band: #EEECE6; --band-ink: #0F0F0E; --field: #1A1A19; color-scheme: dark;
+    --band: #EEECE6; --band-ink: #0F0F0E; --field: #1A1A19; --wed: #B42A40; --rec: #3BB3AE; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0F0F0E; --ink: #EEECE6; --muted: #A4A29B; --rule: rgba(238, 236, 230, 0.22);
-  --band: #EEECE6; --band-ink: #0F0F0E; --field: #1A1A19; color-scheme: dark;
+  --band: #EEECE6; --band-ink: #0F0F0E; --field: #1A1A19; --wed: #B42A40; --rec: #3BB3AE; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -142,19 +144,19 @@ p { margin: 0; }
 .cal-key { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
 .cal-key span { display: flex; align-items: center; gap: 10px; }
 .cal-key i { width: 14px; height: 14px; display: inline-block; flex: none; }
-.cal-key .k-wed { background: var(--ink); transform: rotate(45deg) scale(0.8); }
-.cal-key .k-rec { border: 1.5px solid var(--ink); border-radius: 50%; }
+.cal-key .k-wed { background: var(--wed); transform: rotate(45deg) scale(0.8); }
+.cal-key .k-rec { border: 1.5px solid var(--rec); border-radius: 50%; }
 .grid7 { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); font-variant-numeric: tabular-nums lining-nums; }
 .grid7 span { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; font-size: clamp(1rem, 2.4vw, 1.4rem); border-top: 1px solid var(--rule); isolation: isolate; }
 .grid7 .dow { border-top: 0; aspect-ratio: auto; padding-bottom: 10px; font-size: 0.74rem; font-weight: 500; letter-spacing: 0.2em; color: var(--muted); }
-.grid7 .wed { color: var(--bg); font-weight: 500; }
+.grid7 .wed { color: #FFFFFF; font-weight: 500; }
 .grid7 .wed::before {
-  content: ""; position: absolute; inset: 0; margin: auto; width: 72%; height: 66%; z-index: -1; background: var(--ink);
+  content: ""; position: absolute; inset: 0; margin: auto; width: 72%; height: 66%; z-index: -1; background: var(--wed);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='M12 20.5C6 16.6 2 12.6 2 8.2 2 5.3 4.3 3 7.1 3c2 0 3.8 1.1 4.9 2.8C13.1 4.1 14.9 3 16.9 3 19.7 3 22 5.3 22 8.2c0 4.4-4 8.4-10 12.3z'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='M12 20.5C6 16.6 2 12.6 2 8.2 2 5.3 4.3 3 7.1 3c2 0 3.8 1.1 4.9 2.8C13.1 4.1 14.9 3 16.9 3 19.7 3 22 5.3 22 8.2c0 4.4-4 8.4-10 12.3z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.grid7 .rec { font-weight: 500; }
-.grid7 .rec::before { content: ""; position: absolute; inset: 0; margin: auto; width: 62%; aspect-ratio: 1; border: 1.5px solid var(--ink); border-radius: 50%; }
+.grid7 .rec { font-weight: 600; color: var(--rec); }
+.grid7 .rec::before { content: ""; position: absolute; inset: 0; margin: auto; width: 62%; aspect-ratio: 1; border: 1.5px solid var(--rec); border-radius: 50%; }
 @media (max-width: 760px) { .cal { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- events ---------- */
