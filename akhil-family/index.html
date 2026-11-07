@@ -187,6 +187,15 @@ p { margin: 0; }
 .gallery figure:nth-child(even) { margin-top: clamp(28px, 6vw, 80px); }
 .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
 .gallery figcaption { margin-top: 8px; }
+/* gallery: rise in one by one, each photo 'develops' like a print */
+.gallery.anim figure { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 1.1s cubic-bezier(.2,.7,.2,1); }
+.gallery.anim img { filter: blur(7px) brightness(1.45) contrast(0.55); transition: filter 1.9s ease; }
+.gallery.anim figure:nth-child(2), .gallery.anim figure:nth-child(2) img { transition-delay: 0.18s; }
+.gallery.anim figure:nth-child(3), .gallery.anim figure:nth-child(3) img { transition-delay: 0.36s; }
+.gallery.anim figure:nth-child(4), .gallery.anim figure:nth-child(4) img { transition-delay: 0.54s; }
+.gallery.anim.in figure { opacity: 1; transform: none; }
+.gallery.anim.in img { filter: none; }
+@media (prefers-reduced-motion: reduce) { .gallery.anim figure, .gallery.anim img { opacity: 1; transform: none; filter: none; transition: none; } }
 @media (max-width: 760px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- contact & footer ---------- */
@@ -431,6 +440,17 @@ footer { background: var(--band); color: var(--band-ink); padding-block: clamp(5
     catch (e) { selectIt(); }
   });
 
+  // gallery reveal
+  (function () {
+    var g = document.querySelector('.gallery');
+    if (!g || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    g.classList.add('anim');
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { g.classList.add('in'); io.disconnect(); }
+    }, { threshold: 0.12 });
+    io.observe(g);
+  })();
 })();
 </script>
 
