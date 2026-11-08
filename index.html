@@ -219,6 +219,34 @@ textarea { min-height: 80px; resize: vertical; }
 .form-error { min-height: 1.4em; font-weight: 500; margin-top: -8px; }
 .preview { font-family: var(--serif); font-size: 1.05rem; white-space: pre-line; padding: 14px 16px; background: var(--field); border: 1px solid var(--rule); }
 .send-note { color: var(--muted); font-size: 0.92rem; }
+/* ---------- sheet-backed forms, memories, wall of love ---------- */
+[hidden] { display: none !important; }
+input[type="tel"] {
+  width: 100%; font: inherit; font-family: var(--serif); font-size: 1.3rem; color: var(--ink);
+  background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 8px 0; min-height: 46px;
+}
+input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.7; font-style: italic; }
+textarea.big { min-height: 170px; line-height: 1.45; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.btn[disabled] { opacity: 0.55; cursor: progress; }
+form .btn { align-self: flex-start; }
+.check { display: flex; gap: 12px; align-items: flex-start; font-size: 0.98rem; cursor: pointer; }
+.check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); flex: none; cursor: pointer; }
+.form-error a { color: inherit; }
+.thanks { display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 4vw, 34px); border: 1px solid var(--ink); }
+.thanks:focus { outline: none; }
+.thanks-title { margin: 0; font-family: var(--serif); font-style: italic; font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.1; }
+.thanks-msg { margin: 0; color: var(--muted); }
+.thanks-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.sec-title.sm { font-size: clamp(2.2rem, 6.4vw, 4.4rem); }
+.wall { margin-top: clamp(48px, 8vw, 96px); }
+.wall .sec-title { margin-bottom: clamp(22px, 4vw, 36px); }
+.wall-grid { columns: 2 280px; column-gap: 22px; }
+.note { break-inside: avoid; margin: 0 0 22px; padding: 22px 22px 18px; background: var(--field); border: 1px solid var(--rule); }
+.note blockquote { margin: 0; font-family: var(--serif); font-style: italic; font-size: 1.12rem; line-height: 1.5; white-space: pre-line; overflow-wrap: anywhere; }
+.note blockquote::before { content: "\201C"; display: block; font-family: var(--serif); font-style: normal; font-size: 2.6rem; line-height: 0.6; margin-bottom: 6px; color: var(--wed); }
+.note figcaption { margin-top: 14px; font-size: 0.74rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.note figcaption strong { color: var(--ink); font-weight: 500; }
 @media (max-width: 760px) { .rsvp { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 480px) { .row-2 { grid-template-columns: minmax(0, 1fr); } }
 
@@ -452,51 +480,110 @@ html.has-cover:not(.opened) .couple, html.has-cover:not(.opened) .hero-cta { ani
         <div class="rsvp">
           <div>
             <h2 class="sec-title" id="rsvp-title">RSVP</h2>
-            <p class="rsvp-note">Tell us if you can join us. Your reply comes to us on WhatsApp, with your message ready to send.</p>
+            <p class="rsvp-note">Tell us if you can join us. Your reply comes straight to us.</p>
           </div>
-          <form id="rsvp-form" novalidate>
-            <div class="field">
-              <label for="rsvp-name">Your name</label>
-              <input type="text" id="rsvp-name" name="name" autocomplete="name" required>
-            </div>
-            <fieldset>
-              <legend>Will you attend?</legend>
-              <div class="choices">
-                <label class="choice"><input type="radio" id="rsvp-yes" name="attend" value="yes" checked><span>Joyfully, yes</span></label>
-                <label class="choice"><input type="radio" id="rsvp-no" name="attend" value="no"><span>Sorry, no</span></label>
-              </div>
-            </fieldset>
-            <div class="row-2" id="attend-extra">
+          <div>
+            <form id="rsvp-form" novalidate>
+              <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
               <div class="field">
-                <label for="rsvp-count">Number of guests</label>
-                <select id="rsvp-count" name="count">
-                  <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option>
-                  <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-                </select>
+                <label for="rsvp-name">Your name</label>
+                <input type="text" id="rsvp-name" name="name" autocomplete="name" maxlength="100" required>
+              </div>
+              <div class="field">
+                <label for="rsvp-phone">Phone (optional)</label>
+                <input type="tel" id="rsvp-phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="30">
               </div>
               <fieldset>
-                <legend>Joining us for</legend>
+                <legend>Will you attend?</legend>
                 <div class="choices">
-                  <label class="choice"><input type="checkbox" id="rsvp-ev-wedding" name="events" value="Wedding" checked><span>Wedding</span></label>
-                  <label class="choice"><input type="checkbox" id="rsvp-ev-reception" name="events" value="Reception"><span>Reception</span></label>
+                  <label class="choice"><input type="radio" id="rsvp-yes" name="attend" value="yes" checked><span>Joyfully, yes</span></label>
+                  <label class="choice"><input type="radio" id="rsvp-no" name="attend" value="no"><span>Sorry, no</span></label>
                 </div>
               </fieldset>
+              <div class="row-2" id="attend-extra">
+                <div class="field">
+                  <label for="rsvp-count">Number of guests</label>
+                  <select id="rsvp-count" name="count">
+                    <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option>
+                    <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                  </select>
+                </div>
+                <fieldset>
+                  <legend>Joining us for</legend>
+                  <div class="choices">
+                    <label class="choice"><input type="checkbox" id="rsvp-ev-wedding" name="events" value="Wedding" checked><span>Wedding</span></label>
+                    <label class="choice"><input type="checkbox" id="rsvp-ev-reception" name="events" value="Reception"><span>Reception</span></label>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="field">
+                <label for="rsvp-msg">A note for us (optional)</label>
+                <textarea id="rsvp-msg" name="message" maxlength="1000"></textarea>
+              </div>
+              <p class="form-error" id="rsvp-error" role="alert"></p>
+              <button class="btn" type="submit" id="rsvp-submit">Send RSVP</button>
+              <p class="send-note" id="rsvp-sendnote">Your reply comes straight to Akhil &amp; Greeshma.</p>
+            </form>
+            <div class="thanks" id="rsvp-thanks" tabindex="-1" hidden>
+              <p class="thanks-title">Thank you<span class="thanks-name"></span>!</p>
+              <p class="thanks-msg">Your reply has reached us. We can&rsquo;t wait to celebrate with you.</p>
+              <div class="thanks-actions">
+                <a class="btn line" id="rsvp-wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"></path></svg> Also message us on WhatsApp</a>
+                <button class="btn line" type="button" id="rsvp-again">Send another reply</button>
+              </div>
             </div>
-            <div class="field">
-              <label for="rsvp-msg">Wishes for the couple (optional)</label>
-              <textarea id="rsvp-msg" name="message"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="memories" aria-labelledby="mem-title" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="sec-grid">
+        <span class="label">For the couple</span>
+        <div class="rsvp">
+          <div>
+            <h2 class="sec-title sm" id="mem-title">Your favourite memory of us</h2>
+            <p class="rsvp-note">A moment, a story, a wish. Tell us what you remember most about us. We&rsquo;ll keep every word.</p>
+          </div>
+          <div>
+            <form id="mem-form" novalidate>
+              <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+              <div class="row-2">
+                <div class="field">
+                  <label for="mem-name">Your name</label>
+                  <input type="text" id="mem-name" name="name" autocomplete="name" maxlength="100" required>
+                </div>
+                <div class="field">
+                  <label for="mem-how">How you know us</label>
+                  <input type="text" id="mem-how" name="how" maxlength="100" placeholder="College friend, Akhil&rsquo;s colleague&hellip;">
+                </div>
+              </div>
+              <div class="field">
+                <label for="mem-text">Your favourite memory or wish for us</label>
+                <textarea id="mem-text" name="memory" class="big" maxlength="1500" required></textarea>
+              </div>
+              <label class="check"><input type="checkbox" id="mem-consent" name="consent" value="yes" checked><span>You may show this on our Wall of love</span></label>
+              <p class="form-error" id="mem-error" role="alert"></p>
+              <button class="btn" type="submit" id="mem-submit">Send to us</button>
+              <p class="send-note" id="mem-sendnote">Messages appear on the Wall of love only after we&rsquo;ve read them.</p>
+            </form>
+            <div class="thanks" id="mem-thanks" tabindex="-1" hidden>
+              <p class="thanks-title">Thank you<span class="thanks-name"></span>!</p>
+              <p class="thanks-msg">We can&rsquo;t wait to read it.</p>
+              <div class="thanks-actions"><button class="btn line" type="button" id="mem-again">Write another</button></div>
             </div>
-            <p class="form-error" id="rsvp-error" role="alert"></p>
-            <div class="field">
-              <span class="flabel">Your message</span>
-              <div class="preview" id="rsvp-preview" aria-live="polite"></div>
-            </div>
-            <a class="btn" id="rsvp-send" href="#" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"></path></svg>
-              Send RSVP on WhatsApp
-            </a>
-            <p class="send-note">Opens WhatsApp with this message ready to send to 77367 65489.</p>
-          </form>
+          </div>
+        </div>
+      </div>
+      <div class="wall" id="wall" hidden>
+        <div class="sec-grid">
+          <span class="label">From our people</span>
+          <div>
+            <h3 class="sec-title sm">Wall of love</h3>
+            <div class="wall-grid" id="wall-grid"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -559,46 +646,110 @@ html.has-cover:not(.opened) .couple, html.has-cover:not(.opened) .hero-cta { ani
   }
   if (tick()) { var t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000); }
 
-  var form = document.getElementById('rsvp-form');
-  var nameEl = document.getElementById('rsvp-name');
-  var countEl = document.getElementById('rsvp-count');
-  var msgEl = document.getElementById('rsvp-msg');
-  var extra = document.getElementById('attend-extra');
-  var preview = document.getElementById('rsvp-preview');
-  var send = document.getElementById('rsvp-send');
-  var err = document.getElementById('rsvp-error');
+  // ---------- RSVP + memories -> Google Sheet (falls back to WhatsApp until SHEET_URL is set) ----------
+  var SHEET_URL = '';   // paste the Google Apps Script web-app URL (ends in /exec) between the quotes
   var PHONE = '917736765489';
-  function message() {
-    var name = nameEl.value.trim() || '[your name]';
-    var yes = document.getElementById('rsvp-yes').checked;
-    var lines = ['RSVP – Wedding of Akhil & Greeshma', 'Name: ' + name];
-    if (yes) {
-      var evs = Array.prototype.slice.call(form.querySelectorAll('input[name="events"]:checked')).map(function (i) { return i.value; });
-      lines.push('Attending: Yes', 'Guests: ' + countEl.value, 'Joining for: ' + (evs.length ? evs.join(' & ') : '—'));
-    } else {
-      lines.push("Attending: Sorry, can't make it");
-    }
-    var wish = msgEl.value.trim();
-    if (wish) lines.push('Wishes: ' + wish);
+  var WA_ICON = document.querySelector('#rsvp-wa svg').outerHTML;
+  function $(id) { return document.getElementById(id); }
+  function waLink(text) { return 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(text); }
+  function post(data) {
+    return fetch(SHEET_URL, { method: 'POST', body: new URLSearchParams(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (res) { if (!res || res.ok !== true) throw new Error('not saved'); return res; });
+  }
+  function busy(btn, on, label) { btn.disabled = on; if (label) btn.textContent = label; }
+  function failWith(errEl, text) {
+    errEl.textContent = 'Sorry, that didn’t go through. ';
+    var a = document.createElement('a'); a.href = waLink(text); a.target = '_blank'; a.rel = 'noopener';
+    a.textContent = 'Send it on WhatsApp instead'; errEl.appendChild(a); errEl.appendChild(document.createTextNode('.'));
+  }
+  function showThanks(form, box, name) {
+    box.querySelector('.thanks-name').textContent = name ? ', ' + name.split(' ')[0] : '';
+    form.hidden = true; box.hidden = false; box.focus({ preventScroll: true });
+    box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
+
+  // RSVP
+  var form = $('rsvp-form'), nameEl = $('rsvp-name'), phoneEl = $('rsvp-phone'), countEl = $('rsvp-count');
+  var msgEl = $('rsvp-msg'), extra = $('attend-extra'), err = $('rsvp-error'), submitBtn = $('rsvp-submit');
+  function rsvpData() {
+    var yes = $('rsvp-yes').checked;
+    var evs = Array.prototype.slice.call(form.querySelectorAll('input[name="events"]:checked')).map(function (i) { return i.value; });
+    return { type: 'rsvp', name: nameEl.value.trim(), phone: phoneEl.value.trim(), attend: yes ? 'yes' : 'no',
+      count: yes ? countEl.value : '0', events: yes ? evs.join(' & ') : '', message: msgEl.value.trim(), website: form.website.value };
+  }
+  function rsvpText(d) {
+    var lines = ['RSVP – Wedding of Akhil & Greeshma', 'Name: ' + d.name];
+    if (d.phone) lines.push('Phone: ' + d.phone);
+    if (d.attend === 'yes') lines.push('Attending: Yes', 'Guests: ' + d.count, 'Joining for: ' + (d.events || '—'));
+    else lines.push("Attending: Sorry, can't make it");
+    if (d.message) lines.push('Note: ' + d.message);
     return lines.join('\n');
   }
-  function update() {
-    extra.hidden = !document.getElementById('rsvp-yes').checked;
-    var text = message();
-    preview.textContent = text;
-    send.href = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(text);
-    if (nameEl.value.trim()) err.textContent = '';
+  function syncExtra() { extra.hidden = !$('rsvp-yes').checked; }
+  form.addEventListener('change', function () { syncExtra(); err.textContent = ''; });
+  form.addEventListener('input', function () { err.textContent = ''; });
+  if (!SHEET_URL) {
+    submitBtn.innerHTML = WA_ICON + ' Send RSVP on WhatsApp';
+    $('rsvp-sendnote').textContent = 'Opens WhatsApp with your reply ready to send to 77367 65489.';
   }
-  form.addEventListener('input', update);
-  form.addEventListener('change', update);
-  form.addEventListener('submit', function (e) { e.preventDefault(); });
-  send.addEventListener('click', function (e) {
-    if (!nameEl.value.trim()) { e.preventDefault(); err.textContent = 'Please add your name so we know who is replying.'; nameEl.focus(); return; }
-    if (document.getElementById('rsvp-yes').checked && !form.querySelector('input[name="events"]:checked')) {
-      e.preventDefault(); err.textContent = 'Please choose the wedding, the reception, or both.';
-    }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = rsvpData();
+    if (!d.name) { err.textContent = 'Please add your name so we know who is replying.'; nameEl.focus(); return; }
+    if (d.attend === 'yes' && !d.events) { err.textContent = 'Please choose the wedding, the reception, or both.'; return; }
+    if (!SHEET_URL) { window.open(waLink(rsvpText(d)), '_blank', 'noopener'); return; }
+    if (d.website) { showThanks(form, $('rsvp-thanks'), d.name); return; }
+    busy(submitBtn, true, 'Sending…');
+    post(d).then(function () {
+      $('rsvp-wa').href = waLink(rsvpText(d));
+      showThanks(form, $('rsvp-thanks'), d.name);
+    }).catch(function () { failWith(err, rsvpText(d)); })
+      .then(function () { busy(submitBtn, false, 'Send RSVP'); });
   });
-  update();
+  $('rsvp-again').addEventListener('click', function () { $('rsvp-thanks').hidden = true; form.hidden = false; nameEl.focus(); });
+  syncExtra();
+
+  // Your favourite memory of us
+  var mform = $('mem-form'), mName = $('mem-name'), mHow = $('mem-how'), mText = $('mem-text'), mErr = $('mem-error'), mBtn = $('mem-submit');
+  function memText(d) { return 'A memory for Akhil & Greeshma\nFrom: ' + d.name + (d.how ? ' (' + d.how + ')' : '') + '\n\n' + d.memory; }
+  if (!SHEET_URL) {
+    mBtn.innerHTML = WA_ICON + ' Send on WhatsApp';
+    $('mem-sendnote').textContent = 'Opens WhatsApp with your message ready to send to 77367 65489.';
+    mform.querySelector('.check').hidden = true;
+  }
+  mform.addEventListener('input', function () { mErr.textContent = ''; });
+  mform.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = { type: 'memory', name: mName.value.trim(), how: mHow.value.trim(), memory: mText.value.trim(),
+      consent: $('mem-consent').checked ? 'yes' : 'no', website: mform.website.value };
+    if (!d.name) { mErr.textContent = 'Please add your name.'; mName.focus(); return; }
+    if (!d.memory) { mErr.textContent = 'Please write a memory or a wish for us.'; mText.focus(); return; }
+    if (!SHEET_URL) { window.open(waLink(memText(d)), '_blank', 'noopener'); return; }
+    if (d.website) { showThanks(mform, $('mem-thanks'), d.name); return; }
+    busy(mBtn, true, 'Sending…');
+    post(d).then(function () { mText.value = ''; showThanks(mform, $('mem-thanks'), d.name); })
+      .catch(function () { failWith(mErr, memText(d)); })
+      .then(function () { busy(mBtn, false, 'Send to us'); });
+  });
+  $('mem-again').addEventListener('click', function () { $('mem-thanks').hidden = true; mform.hidden = false; mText.focus(); });
+
+  // Wall of love: only messages the couple ticked "Show" in the sheet
+  if (SHEET_URL) {
+    fetch(SHEET_URL + '?action=wall').then(function (r) { return r.json(); }).then(function (res) {
+      var items = (res && res.items) || [];
+      if (!items.length) return;
+      var grid = $('wall-grid');
+      items.forEach(function (it) {
+        var fig = document.createElement('figure'); fig.className = 'note';
+        var q = document.createElement('blockquote'); q.textContent = it.text;
+        var cap = document.createElement('figcaption'); var who = document.createElement('strong'); who.textContent = it.name;
+        cap.appendChild(who); if (it.how) cap.appendChild(document.createTextNode(' · ' + it.how));
+        fig.appendChild(q); fig.appendChild(cap); grid.appendChild(fig);
+      });
+      $('wall').hidden = false;
+    }).catch(function () {});
+  }
 
   var copyBtn = document.getElementById('copy-phone');
   var status = document.getElementById('copy-status');
