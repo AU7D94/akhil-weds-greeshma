@@ -647,7 +647,7 @@ html.has-cover:not(.opened) .couple, html.has-cover:not(.opened) .hero-cta { ani
   if (tick()) { var t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000); }
 
   // ---------- RSVP + memories -> Google Sheet (falls back to WhatsApp until SHEET_URL is set) ----------
-  var SHEET_URL = '';   // paste the Google Apps Script web-app URL (ends in /exec) between the quotes
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycby_QbnG7su28Fl3iPEy-4fE1gRL92NY2x-lM6u_qQf0gYusGzalWYkOkZgs5kBEiX4W/exec';   // paste the Google Apps Script web-app URL (ends in /exec) between the quotes
   var PHONE = '917736765489';
   var WA_ICON = document.querySelector('#rsvp-wa svg').outerHTML;
   function $(id) { return document.getElementById(id); }
